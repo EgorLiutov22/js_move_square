@@ -1,0 +1,67 @@
+<script>
+/*function power(num, pow)
+{
+   if (pow == 0)
+   {
+		return 1;
+	}
+   return num*power(num, pow - Math.sign(pow));
+}
+
+let n = 2;
+let p = -5;
+let res = power(n, p);
+alert(res)*/
+
+/*function common_delimetr(an, ad, bn, bd, i=2)
+{  
+   let smallest;
+   if (ad>bd)
+   {
+   smallest = bd;
+   }
+   else 
+	   {
+	   smallest = ad;
+	   }
+   if (((an*bd)%i == 0) & ((bn*ad)%i == 0))
+   {
+       return i*smallest;
+   }
+   else if (i >= Math.pow(smallest, 1/2))
+   {
+       return ad*bd;
+   }
+   else 
+   {
+       return common_delimetr(an, ad, bn, bd, i=i+1)
+   }
+}
+let res2 = common_delimetr(1, 10, 2, 20);
+alert(res2)*/
+function delimetr(a,b, d = 0)
+{
+
+if (d == 0)
+	{
+   if (a>b)
+   {
+   d = b;
+   }
+   else 
+	   {
+	   d = a;
+	   }	
+	}
+	if ((a%d==0)&(b%d==0))
+	{
+		return d;
+	}
+	else
+	{
+		return delimetr(a,b, d-1)
+	}
+}
+let res3 = delimetr(12, 8);
+alert(res3);
+</script>
