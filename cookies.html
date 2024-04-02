@@ -1,0 +1,147 @@
+<html>
+<head>
+
+</head>
+<body>
+
+<form  id="formWithValidation" class="formWithValidation">
+<input type="text" id="color_name" name="color_name" value="Название" class="color_name"><br>
+  <label for="method">Метод:</label>
+  <select id="method" name="method" class="method">
+    <option value="RGB">RGB</option>
+    <option value="RGBA">RGBA</option>
+    <option value="Hex">Hex</option>
+    
+  </select><br>
+  <input type="text" id="color" name="color" value="0,0,0" class="color"><br>
+  <input type="submit" id="validateBtn" class="validateBtn">
+</form>
+<script>
+var removeValidation = function () {
+  var errors = form.querySelectorAll('.error')
+
+  for (var i = 0; i < errors.length; i++) {
+    errors[i].remove()
+  }
+}
+var validateBtn = document.querySelector('.formWithValidation .validateBtn')
+var form = document.querySelector('.formWithValidation')
+var validateBtn = form.querySelector('.validateBtn')
+form.addEventListener('submit', function () {
+  console.log('clicked on validate')
+})
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+  console.log('clicked on validate')
+})
+
+var name = form.querySelector('.color_name')
+var method = form.querySelector('.method')
+var color = form.querySelector('.color')
+
+
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+  console.log('clicked on validate')
+  console.log('name: ', name.value)
+  console.log('method: ', method.value)
+})
+var fields = form.querySelectorAll('.field')
+
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+
+  for (var i = 0; i < fields.length; i++) {
+    if (!fields[i].value) {
+      console.log('field is blank', fields[i])
+    }
+  }
+})
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+
+  var errors = form.querySelectorAll('.error')
+
+  for (var i = 0; i < errors.length; i++) {
+    errors[i].remove()
+  }
+
+  for (var i = 0; i < fields.length; i++) {
+    if (!fields[i].value) {
+      console.log('field is blank', fields[i])
+      var error = document.createElement('div')
+      error.className = 'error'
+      error.style.color = 'red'
+      error.innerHTML = 'Cannot be blank'
+      form[i].parentElement.insertBefore(error, fields[i])
+    }
+  }
+})
+
+const re_rgb = new RegExp("(([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5]),){2}([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])");
+const re_rgba = new RegExp("(([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5]),){3}[01]");
+const re_hex = new RegExp("#[0-9A-F]{6}");
+
+var checkFieldsCorrect = function () {
+	let regexp;
+	let len;
+  if (method.value == "RGB")
+  {
+	regexp = re_rgb;
+	len = 11;
+	console.log(regexp + "rgb" + len);
+  }
+  else if (method.value == "RGBA")
+  {
+  regexp = re_rgba;
+  len = 13;
+  console.log(regexp + "rgba");
+  }
+  else if (method.value == "Hex")
+  {
+  regexp = re_hex;
+  len = 7;
+  console.log(regexp + "hex");
+  }
+  console.log(color.value);
+  console.log(typeof color.value);
+  console.log(regexp.test(color.value));
+  console.log(color.value.length);
+  console.log(color.value.length <= len);
+  return (regexp.test(color.value))&(color.value.length <= len);
+}
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+
+  removeValidation()
+
+  let correct = checkFieldsCorrect()
+
+  if (!correct) {
+    console.log('not correct');
+	alert('not correct');
+    var error = generateError('color not valid');
+    color.parentElement.insertBefore(error, color);
+  }
+  else {
+	if (document.cookie[color])
+	{
+		var error = generateError('color name almost exist');
+		name.parentElement.insertBefore(error, name);
+	}
+	else 
+	{
+	let cookies = name.value + "=";
+	cookies += color.value;
+	console.log(cookies);
+	document.cookie = cookies;
+	console.log(document.cookie);
+	alert(document.cookie);
+	}
+  }
+})
+
+</script>
+
+</body>
+</html>
