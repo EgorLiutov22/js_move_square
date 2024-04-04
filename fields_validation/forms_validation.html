@@ -32,6 +32,50 @@
 	console.log(pwd.isValid());
   var pwd_r = $('#pwd_r').parsley();
 	console.log(pwd_r.isValid());
+	
+	
+$(document).ready(function() {
+    $('#pwd').on('input', function() {
+        var password = $(this).val();
+        var strength = 0;
+  
+        // Only one case or only digits
+        if (((password.match(/[a-z]/) ^ password.match(/[A-Z]/))^password.match(/\d/))&&(!password.match(/[^a-zA-Z\d]/))) {
+            strength = 1;
+        } 
+		
+		if (((password.match(/[a-z]/) ^ password.match(/[A-Z]/))&&password.match(/\d/))) {
+            strength = 2;
+        } 
+  
+        if (((password.match(/[a-z]/) && password.match(/[A-Z]/))&&password.match(/\d/))) {
+            strength = 3;
+        } 
+  
+        if (((password.match(/[a-z]/) && password.match(/[A-Z]/))&&password.match(/\d/))&&(password.match(/[^a-zA-Z\d]/))) {
+            strength = 4;
+        } 
+		console.log(strength)
+  
+        // Update the text and color based on the password strength
+        var passwordStrengthElement = $('#password-strength');
+        if (strength < 2) {
+            passwordStrengthElement.text("Very easy");
+            passwordStrengthElement.css('color', 'red');
+        } else if (strength === 2) {
+            passwordStrengthElement.text("Easy");
+            passwordStrengthElement.css('color', 'orange');
+        } else if (strength === 3) {
+            passwordStrengthElement.text("Normal");
+            passwordStrengthElement.css('color', 'black');
+        } else {
+            passwordStrengthElement.text("Hard");
+            passwordStrengthElement.css('color', 'green');
+        }
+    });
+});
+
+
 </script>
 </body>
 </html>
